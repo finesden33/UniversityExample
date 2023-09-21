@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UniversityDataAccessObject {
+public class UniversityDataAccessObject implements UniversityDataAccessInterface {
 
     private final File personFile;
     private final File studentFile;
@@ -72,6 +72,7 @@ public class UniversityDataAccessObject {
         }
     }
 
+    @Override
     public void save(Person person) {
         persons.put(person.getUtorid(), person);
         this.save();
@@ -105,6 +106,7 @@ public class UniversityDataAccessObject {
         }
     }
 
+    @Override
     public Person get(String utorid) {
         return persons.get(utorid);
     }

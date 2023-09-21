@@ -1,5 +1,6 @@
 package app;
 
+import data_access.UniversityDataAccessInterface;
 import data_access.UniversityDataAccessObject;
 import entity.Person;
 import entity.Student;
@@ -9,7 +10,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-        demoPersonStudent();
+        //demoPersonStudent();
         demoDataAccessObject();
     }
 
@@ -33,7 +34,7 @@ public class Main {
      * Create a few Person and Student objects and save them.
      */
     private static void demoDataAccessObject() {
-        UniversityDataAccessObject universityDAO = null;
+        UniversityDataAccessInterface universityDAO = null;
         try {
              universityDAO = new UniversityDataAccessObject(
                     "person.csv", "student.csv");
@@ -41,6 +42,26 @@ public class Main {
             System.out.println("Could not read from files." + e);
             System.exit(1);
         }
+
+        Person p = universityDAO.get("adele");
+        System.out.println(p);
+
+        p.changeLastName("ADELE");
+        universityDAO.save(p);
+        System.out.println(p);
+
+        //Note: the below would need to be
+        // commented out to get the change above
+        // to persist, but it needs to be run
+        // once in order to initially create the
+        // people in the university and save them
+        // to the csv files.
+        // Think about how one might change
+        // the code in order to make the initial
+        // loading happen initially.
+        // Hint: one approach is to have the
+        // UniversityDataAccessInterface provide
+        // another service to our client code.
 
         String[] name = "John Jacob Jingleheimer Schmidt".split(" ");
         Person p1 = new Person(name, "schmidtj");
